@@ -456,51 +456,13 @@
         </section>
         
         <section id="meal-planner" class="meal-planner">
-            <div class="container">
-                <h1 class="section-heading"><span>Interactive</span> Meal Planner</h1>
-                <p>Create and save personalized meal plans for your child based on their age, dietary needs, and preferences.</p>
-                <form id="meal-planner-form">
-                    <div class="form-group">
-                        <label for="child-age">Child's Age</label>
-                        <select id="child-age" required>
-                            <option value="0-6 Months">0-6 Months</option>
-                            <option value="6-12 Months">6-12 Months</option>
-                            <option value="1-2 Years">1-2 Years</option>
-                            <option value="2-5 Years">2-5 Years</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="dietary-needs">Dietary Needs</label>
-                        <select id="dietary-needs" required>
-                            <option value="None">None</option>
-                            <option value="Vegetarian">Vegetarian</option>
-                            <option value="Vegan">Vegan</option>
-                            <option value="Gluten-Free">Gluten-Free</option>
-                            <option value="Dairy-Free">Dairy-Free</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="preferences">Preferences</label>
-                        <input type="text" id="preferences" placeholder="Enter any preferences (e.g., likes/dislikes)">
-                    </div>
-                    <button type="submit" class="btn btn-primary">Create Meal Plan</button>
-                </form>
-                <div id="meal-plan-output" class="meal-plan-output">
-                    <h2>Your Personalized Meal Plan</h2>
-                    <div id="meal-plan-details"></div>
-                    <button id="save-meal-plan" class="btn btn-secondary">Save Meal Plan</button>
-                </div>
-            </div>
-        </section>
-
-        <section id="nutrient-calculator" class="nutrient-calculator">
     <div class="container">
-        <h2 class="section-heading">Nutrient Calculator</h2>
-        <p>Calculate your child's daily nutrient requirements based on their age, weight, and activity level.</p>
-        <form id="nutrient-calculator-form">
+        <h1 class="section-heading"><span>Interactive</span> Meal Planner</h1>
+        <p>Create and save personalized meal plans for your child based on their age, dietary needs, and preferences.</p>
+        <form id="meal-planner-form">
             <div class="form-group">
-                <label for="child-age">Child's Age:</label>
-                <select id="child-age" required>
+                <label for="meal-child-age">Child's Age</label>
+                <select id="meal-child-age" required>
                     <option value="0-6 Months">0-6 Months</option>
                     <option value="6-12 Months">6-12 Months</option>
                     <option value="1-2 Years">1-2 Years</option>
@@ -508,56 +470,34 @@
                 </select>
             </div>
             <div class="form-group">
-                <label for="child-weight">Child's Weight (kg):</label>
-                <input type="number" id="child-weight" placeholder="Enter your child's weight" required>
-            </div>
-            <div class="form-group">
-                <label for="activity-level">Activity Level:</label>
-                <select id="activity-level" required>
-                    <option value="low">Low</option>
-                    <option value="moderate">Moderate</option>
-                    <option value="high">High</option>
+                <label for="dietary-needs">Dietary Needs</label>
+                <select id="dietary-needs" required>
+                    <option value="None">None</option>
+                    <option value="Vegetarian">Vegetarian</option>
+                    <option value="Vegan">Vegan</option>
+                    <option value="Gluten-Free">Gluten-Free</option>
+                    <option value="Dairy-Free">Dairy-Free</option>
                 </select>
             </div>
-            <button type="submit" class="btn btn-primary">Calculate</button>
+            <div class="form-group">
+                <label for="preferences">Preferences</label>
+                <input type="text" id="preferences" placeholder="Enter any preferences (e.g., likes/dislikes)">
+            </div>
+            <button type="submit" class="btn btn-primary">Create Meal Plan</button>
         </form>
-        <div id="nutrient-output" class="nutrient-output">
-            <h3>Nutrient Requirements</h3>
-            <p id="calories"></p>
-            <p id="protein"></p>
-            <p id="carbs"></p>
-            <p id="fats"></p>
+        <div id="meal-plan-output" class="meal-plan-output">
+            <h2>Your Personalized Meal Plan</h2>
+            <div id="meal-plan-details"></div>
+            <button id="save-meal-plan" class="btn btn-secondary">Save Meal Plan</button>
         </div>
     </div>
 </section>
 
-<script>
-    document.getElementById('nutrient-calculator-form').addEventListener('submit', (event) => {
-        event.preventDefault();
-        const age = document.getElementById('child-age').value;
-        const weight = document.getElementById('child-weight').value;
-        const activityLevel = document.getElementById('activity-level').value;
-        
-        const nutrientNeeds = calculateNutrients(age, weight, activityLevel);
-        
-        document.getElementById('calories').textContent = `Calories: ${nutrientNeeds.calories}`;
-        document.getElementById('protein').textContent = `Protein: ${nutrientNeeds.protein} g`;
-        document.getElementById('carbs').textContent = `Carbohydrates: ${nutrientNeeds.carbs} g`;
-        document.getElementById('fats').textContent = `Fats: ${nutrientNeeds.fats} g`;
-        
-        document.getElementById('nutrient-output').style.display = 'block';
-    });
+<section id="nutrient-calculator" class="nutrient-calculator">
+    <div class="container">
+        <h2 class="section-heading">Nutrient Calculator</h2>
+ 
 
-    function calculateNutrients(age, weight, activityLevel) {
-        const baseCalories = age === "0-6 Months" ? 500 : age === "6-12 Months" ? 700 : age === "1-2 Years" ? 1000 : 1400;
-        const activityFactor = activityLevel === "low" ? 1 : activityLevel === "moderate" ? 1.2 : 1.5;
-        const calories = baseCalories * activityFactor;
-        const protein = weight * 1.2;
-        const carbs = calories * 0.5 / 4;
-        const fats = calories * 0.3 / 9;
-        return { calories, protein, carbs, fats };
-    }
-</script>
 
 <style>
     .container {
