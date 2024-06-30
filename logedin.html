@@ -455,7 +455,7 @@
             </div>
         </section>
         
-        <section id="meal-planner" class="meal-planner">
+   <section id="meal-planner" class="meal-planner">
     <div class="container">
         <h1 class="section-heading"><span>Interactive</span> Meal Planner</h1>
         <p>Create and save personalized meal plans for your child based on their age, dietary needs, and preferences.</p>
@@ -496,8 +496,68 @@
 <section id="nutrient-calculator" class="nutrient-calculator">
     <div class="container">
         <h2 class="section-heading">Nutrient Calculator</h2>
- 
+        <p>Calculate your child's daily nutrient requirements based on their age, weight, and activity level.</p>
+        <form id="nutrient-calculator-form">
+            <div class="form-group">
+                <label for="calculator-child-age">Child's Age:</label>
+                <select id="calculator-child-age" required>
+                    <option value="0-6 Months">0-6 Months</option>
+                    <option value="6-12 Months">6-12 Months</option>
+                    <option value="1-2 Years">1-2 Years</option>
+                    <option value="2-5 Years">2-5 Years</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="child-weight">Child's Weight (kg):</label>
+                <input type="number" id="child-weight" placeholder="Enter your child's weight" required>
+            </div>
+            <div class="form-group">
+                <label for="activity-level">Activity Level:</label>
+                <select id="activity-level" required>
+                    <option value="low">Low</option>
+                    <option value="moderate">Moderate</option>
+                    <option value="high">High</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Calculate</button>
+        </form>
+        <div id="nutrient-output" class="nutrient-output">
+            <h3>Nutrient Requirements</h3>
+            <p id="calories"></p>
+            <p id="protein"></p>
+            <p id="carbs"></p>
+            <p id="fats"></p>
+        </div>
+    </div>
+</section>
 
+<script>
+    document.getElementById('nutrient-calculator-form').addEventListener('submit', (event) => {
+        event.preventDefault();
+        const age = document.getElementById('calculator-child-age').value;
+        const weight = document.getElementById('child-weight').value;
+        const activityLevel = document.getElementById('activity-level').value;
+        
+        const nutrientNeeds = calculateNutrients(age, weight, activityLevel);
+        
+        document.getElementById('calories').textContent = `Calories: ${nutrientNeeds.calories}`;
+        document.getElementById('protein').textContent = `Protein: ${nutrientNeeds.protein} g`;
+        document.getElementById('carbs').textContent = `Carbohydrates: ${nutrientNeeds.carbs} g`;
+        document.getElementById('fats').textContent = `Fats: ${nutrientNeeds.fats} g`;
+        
+        document.getElementById('nutrient-output').style.display = 'block';
+    });
+
+    function calculateNutrients(age, weight, activityLevel) {
+        const baseCalories = age === "0-6 Months" ? 500 : age === "6-12 Months" ? 700 : age === "1-2 Years" ? 1000 : 1400;
+        const activityFactor = activityLevel === "low" ? 1 : activityLevel === "moderate" ? 1.2 : 1.5;
+        const calories = baseCalories * activityFactor;
+        const protein = weight * 1.2;
+        const carbs = calories * 0.5 / 4;
+        const fats = calories * 0.3 / 9;
+        return { calories, protein, carbs, fats };
+    }
+</script>
 
 <style>
     .container {
@@ -527,7 +587,62 @@
         width: 100%;
         padding: 10px;
         border: 1px solid #ddd;
-        
+        border-radius: 5px;
+    }
+
+    .btn-primary {
+        padding: 10px 20px;
+        font-size: 1em;
+        color: #fff;
+        background-color: #007BFF;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .btn-primary:hover {
+        background-color: #0056b3;
+    }
+
+    .nutrient-output {
+        margin-top: 20px;
+        text-align: left;
+        display: none;
+    }
+
+    @media (min-width: 768px) {
+        .form-group {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .form-group label {
+            flex: 1;
+        }
+
+        .form-group input,
+        .form-group select {
+            flex: 2;
+        }
+
+        .form-group input {
+            margin-left: 10px;
+        }
+    }
+
+    @media (min-width: 1024px) {
+        .container {
+            padding: 40px;
+        }
+
+        .section-heading {
+            font-size: 2.5em;
+        }
+    }
+</style>
+
 
 
         <section id="community"   class="community-reviews">
