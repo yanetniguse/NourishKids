@@ -833,6 +833,27 @@
         }
         </style>
         
+<section id="community" class="community-forum">
+    <div class="container">
+        <h2 class="section-heading">Community Forum</h2>
+        <div id="disqus_thread"></div>
+    </div>
+</section>
+
+<script>
+    var disqus_config = function () {
+        this.page.url = 'YOUR_PAGE_URL';  // Replace with your page URL
+        this.page.identifier = 'unique-page-id'; // Replace with a unique identifier for each page
+    };
+
+    (function() {  // DON'T EDIT BELOW THIS LINE
+        var d = document, s = d.createElement('script');
+        s.src = 'https://YOUR_DISQUS_SHORTNAME.disqus.com/embed.js';  // Replace with your Disqus shortname
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+
         
 <!-- Profile Creation Modal -->
 <div id="signup-modal" class="modal">
