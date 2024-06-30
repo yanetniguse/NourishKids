@@ -10,7 +10,19 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
     <link rel="stylesheet" href="./style.css">
     <!--<link rel="stylesheet" href="modal.css"> Separate CSS file for modal styles -->
+<!-Data Visualization->
 
+     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        .container {
+            max-width: 800px;
+            margin: auto;
+            padding: 20px;
+        }
+        canvas {
+            margin: 20px 0;
+        }
+        
       <!--chatbot-->
 <script>
     window.embeddedChatbotConfig = {
@@ -111,10 +123,9 @@
                             <a href="#nutrient-calculator">Nutrient-Calculator</a>
                             <a href="#blog">Blog</a>
                             <a href="#community">Community</a>
-                           
-                            
-        
-                            
+                            <a href="#visualization">Data-Visualization</a>
+
+
                         </div>
                     </div>
                     <div class="right">
@@ -564,7 +575,54 @@
     }
 </style>
 
+<section id="visualization" class="data-visualization">
+        <div class="container">
+            <h2 class="section-heading">Nutritional Data Visualization</h2>
+            <canvas id="nutritionChart" width="400" height="400"></canvas>
+        </div>
+    </section>
 
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Sample nutritional data
+            const nutritionalData = {
+                labels: ['Protein', 'Carbohydrates', 'Fats', 'Vitamins'],
+                datasets: [{
+                    label: 'Daily Nutritional Intake (grams/mg)',
+                    data: [50, 200, 30, 10],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            };
+
+            // Get the canvas element
+            const ctx = document.getElementById('nutritionChart').getContext('2d');
+
+            // Create the chart
+            const nutritionChart = new Chart(ctx, {
+                type: 'bar',
+                data: nutritionalData,
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        });
+    </script>
 
         <section id="community"   class="community-reviews">
             <div class="container flex">
