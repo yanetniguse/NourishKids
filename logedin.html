@@ -1,0 +1,990 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>NourishKids: Healthy Nutrition for Children Under 5</title>
+    <link href="https://fonts.googleapis.com/css?family=Poppins:400,600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
+    <link rel="stylesheet" href="./style.css">
+    <!--<link rel="stylesheet" href="modal.css"> Separate CSS file for modal styles -->
+
+    <!-- Inline styles for layout -->
+    <style>
+        /* Basic styles for resources section */
+        .resources {
+            padding: 2rem 0;
+            background-color: #f9f9f9;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+        .section-heading {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        .resource-wrapper {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            justify-content: center;
+        }
+        .resource {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 1.5rem;
+            flex: 1 1 calc(50% - 2rem);
+            max-width: calc(50% - 2rem);
+            margin-bottom: 2rem;
+        }
+        .resource h2 {
+            font-size: 1.75rem;
+            margin-bottom: 1rem;
+        }
+        .resource p {
+            font-size: 1rem;
+            margin-bottom: 1rem;
+        }
+        .sub-resource {
+            margin-bottom: 1rem;
+        }
+        .sub-resource h3 {
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+        }
+        .sub-resource p {
+            font-size: 1rem;
+        }
+
+
+        
+    </style>
+    <!--meal planner style and script below-->
+
+    <style>
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .meal-planner {
+            padding: 40px 0;
+            text-align: center;
+        }
+
+        .meal-planner .form-group {
+            margin-bottom: 15px;
+        }
+
+        .meal-planner .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .meal-planner .form-group input,
+        .meal-planner .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .meal-plan-output {
+            margin-top: 20px;
+            display: none;
+            text-align: left;
+        }
+
+        .btn-primary {
+            padding: 10px 20px;
+            font-size: 1em;
+            color: #fff;
+            background-color: #007BFF;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+
+        .btn-secondary {
+            padding: 10px 20px;
+            font-size: 1em;
+            color: #fff;
+            background-color: #6c757d;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-top: 10px;
+        }
+
+        .btn-secondary:hover {
+            background-color: #5a6268;
+        }
+    </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const form = document.getElementById('meal-planner-form');
+            const outputDiv = document.getElementById('meal-plan-output');
+            const detailsDiv = document.getElementById('meal-plan-details');
+            const saveButton = document.getElementById('save-meal-plan');
+
+            form.addEventListener('submit', (event) => {
+                event.preventDefault();
+                const age = document.getElementById('child-age').value;
+                const dietaryNeeds = document.getElementById('dietary-needs').value;
+                const preferences = document.getElementById('preferences').value;
+
+                const mealPlan = generateMealPlan(age, dietaryNeeds, preferences);
+
+                detailsDiv.innerHTML = `
+                    <p><strong>Age Group:</strong> ${age}</p>
+                    <p><strong>Dietary Needs:</strong> ${dietaryNeeds}</p>
+                    <p><strong>Preferences:</strong> ${preferences}</p>
+                    <h3>Suggested Meals</h3>
+                    <ul>
+                        ${mealPlan.map(meal => `<li>${meal}</li>`).join('')}
+                    </ul>
+                `;
+
+                outputDiv.style.display = 'block';
+            });
+
+            saveButton.addEventListener('click', () => {
+                const age = document.getElementById('child-age').value;
+                const dietaryNeeds = document.getElementById('dietary-needs').value;
+                const preferences = document.getElementById('preferences').value;
+
+                const mealPlan = generateMealPlan(age, dietaryNeeds, preferences);
+
+                const savedMealPlans = JSON.parse(localStorage.getItem('mealPlans')) || [];
+                savedMealPlans.push({ age, dietaryNeeds, preferences, mealPlan });
+                localStorage.setItem('mealPlans', JSON.stringify(savedMealPlans));
+
+                alert('Meal plan saved successfully!');
+            });
+        });
+
+        function generateMealPlan(age, dietaryNeeds, preferences) {
+            // Mock meal plans based on age and dietary needs
+            const mealPlans = {
+                "0-6 Months": ["Breast milk or formula"],
+                "6-12 Months": ["Pureed fruits", "Pureed vegetables", "Small pieces of soft fruit", "Mashed vegetables"],
+                "1-2 Years": ["Small pieces of fruit", "Cooked vegetables", "Small pieces of meat or tofu", "Whole grain cereals"],
+                "2-5 Years": ["Whole grain bread", "Lean proteins", "Dairy products", "Fresh fruits and vegetables"]
+            };
+
+            let meals = mealPlans[age];
+
+            // Modify the meal plan based on dietary needs
+            if (dietaryNeeds === "Vegetarian") {
+                meals = meals.filter(meal => !meal.includes("meat"));
+            } else if (dietaryNeeds === "Vegan") {
+                meals = meals.filter(meal => !meal.includes("meat") && !meal.includes("dairy"));
+            } else if (dietaryNeeds === "Gluten-Free") {
+                meals = meals.filter(meal => !meal.includes("bread") && !meal.includes("cereals"));
+            } else if (dietaryNeeds === "Dairy-Free") {
+                meals = meals.filter(meal => !meal.includes("dairy"));
+            }
+
+            // Add preferences to the meal plan
+            if (preferences) {
+                meals.push(`Preferences: ${preferences}`);
+            }
+
+            return meals;
+        }
+    </script>
+</head>
+
+<body>
+    <div class="site-main-wrapper">
+        <button class="hamberger">
+            <img src="./images/hamberger.svg" alt="">
+        </button>
+
+        <div class="mobile-nav">
+            <button class="times"><img src="./images/times.svg" alt=""></button>
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">About</a></li>
+                <li><a href="#">Blog</a></li>
+                
+            </ul>
+        </div>
+        <header>
+            <div class="container">
+                <nav id="main-nav" class="flex items-center justify-between">
+                    <div class="left flex items-center">
+                        <div class="branding">
+                            <img id="mlogo" src="mainlogo.jpg" alt="NourishKids Logo">
+                        </div>
+                        <div>
+                            <a href="#">Home</a>
+                            <a href="#about">About</a>
+                            <a href="#blog">Blog</a>
+                            <a href="#community">Community</a>
+                            <a href="#resources">Resources</a>
+                            <a href="#meal-planner">Meal-Planner</a>
+                        </div>
+                    </div>
+                    <div class="right">
+                        <button class="btn btn-primary">Welcome</button>
+                    </div>
+                </nav>
+                <div class="hero flex items-center justify-between">
+                    <div class="left flex-1 flex justify-center">
+                        <img src="kids2.jpg" alt="Healthy Kids">
+                    </div>
+                    <section class="intro">
+                        <div class="container">
+                            <h1 class="intro-heading">"A Happy Kid Makes a Happy Family"</h1>
+                            <p class="intro-text">Nurturing our children's well-being is the foundation for a joyful and harmonious family life. Let's create a brighter future together, one smile at a time.</p>
+                        </div>
+                    </section>
+                    
+                    <style>
+                        #mlogo{
+                            height: 100px;
+                            width: 190px;
+                        }
+                        .intro {
+                            padding: 50px 0;
+                            background-color: #f0f8ff;
+                            text-align: center;
+                        }
+                    
+                        .container {
+                            max-width: 800px;
+                            margin: 0 auto;
+                            padding: 0 15px;
+                        }
+                    
+                        .intro-heading {
+                            font-size: 2.5em;
+                            color: #007bff;
+                            margin-bottom: 20px;
+                        }
+                    
+                        .intro-text {
+                            font-size: 1.2em;
+                            color: #555;
+                        }
+                    </style>
+                    
+                </div>
+            </div>
+        </header>
+        <script type="module">
+            // Import the functions you need from the SDKs you need
+            import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+            import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-analytics.js";
+            // TODO: Add SDKs for Firebase products that you want to use
+            // https://firebase.google.com/docs/web/setup#available-libraries
+          
+            // Your web app's Firebase configuration
+            // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+            const firebaseConfig = {
+              apiKey: "AIzaSyBzP46VtxfsPZRKMLBy4fjRZZuMou5LMg8",
+              authDomain: "i2c-applicants.firebaseapp.com",
+              databaseURL: "https://i2c-applicants-default-rtdb.firebaseio.com",
+              projectId: "i2c-applicants",
+              storageBucket: "i2c-applicants.appspot.com",
+              messagingSenderId: "181507897202",
+              appId: "1:181507897202:web:1091bf5128181d3c0c0feb",
+              measurementId: "G-NVN7J28MHG"
+            };
+          
+            // Initialize Firebase
+            const app = initializeApp(firebaseConfig);
+            const analytics = getAnalytics(app);
+          </script>
+        
+        
+        <style>
+        /* Responsive Styles for the About Section */
+        .about-inner-wrap {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .about-me-img {
+            max-width: 100%;
+            border-radius: 10px;
+        }
+        .social {
+            display: flex;
+            gap: 10px;
+        }
+        .social a img {
+            width: 30px;
+        }
+        @media (max-width: 768px) {
+            .about-inner-wrap {
+                flex-direction: column;
+                align-items: center;
+            }
+            .flex-1 {
+                width: 100%;
+                text-align: center;
+            }
+            h1 {
+                font-size: 2em;
+            }
+            h3 {
+                font-size: 1.5em;
+            }
+            p {
+                font-size: 0.9em;
+            }
+        }
+        </style>
+        
+        
+
+       
+        <section id="resources" class="resources">
+            <div class="container">
+                <h1 class="section-heading"><span>Our </span>Resources</h1>
+                <p>Your go-to guides for child nutrition.</p>
+                <div class="resource-wrapper">
+                    <div class="resource">
+                        <h2>Nutritional Guides</h2>
+                        <p>Explore detailed guides on balanced diets, essential nutrients, and best feeding practices for young children.</p>
+                        <div class="sub-resource">
+                            <h3>Balanced Diets</h3>
+                            <p>A balanced diet is crucial for the growth and development of young children. Ensure a mix of proteins, carbohydrates, fats, vitamins, and minerals in their daily meals.</p>
+                        </div>
+                        <div class="sub-resource">
+                            <h3>Essential Nutrients</h3>
+                            <p>Learn about the essential nutrients such as calcium, iron, and vitamins that are vital for your child's development.</p>
+                        </div>
+                        <div class="sub-resource">
+                            <h3>Feeding Practices</h3>
+                            <p>Adopt best practices for feeding your child, including portion control, meal timing, and introducing new foods.</p>
+                        </div>
+                    </div>
+                    <div class="resource">
+                        <h2>Meal Plans</h2>
+                        <p>Find sample meal plans tailored to different age groups and dietary needs.</p>
+                        <div class="sub-resource">
+                            <h3>0-6 Months</h3>
+                            <p>Exclusive breastfeeding or formula feeding. Gradual introduction of solid foods after 6 months.</p>
+                        </div>
+                        <div class="sub-resource">
+                            <h3>6-12 Months</h3>
+                            <p>Introduce pureed fruits and vegetables, cereals, and lean proteins. Continue breastfeeding or formula feeding.</p>
+                        </div>
+                        <div class="sub-resource">
+                            <h3>1-2 Years</h3>
+                            <p>Transition to more solid foods, including small pieces of fruits, vegetables, grains, and proteins. Ensure adequate hydration.</p>
+                        </div>
+                        <div class="sub-resource">
+                            <h3>2-5 Years</h3>
+                            <p>Provide a variety of foods from all food groups. Focus on whole grains, lean proteins, fruits, and vegetables.</p>
+                        </div>
+                    </div>
+                    <div class="resource">
+                        <h2>Healthy Recipes</h2>
+                        <p>Try our easy-to-follow recipes for nutritious meals and snacks that kids will love.</p>
+                        <div class="sub-resource">
+                            <h3>Breakfast Ideas</h3>
+                            <p>Quick and healthy breakfast recipes like smoothies, oatmeal, and whole grain pancakes.</p>
+                        </div>
+                        <div class="sub-resource">
+                            <h3>Lunch Recipes</h3>
+                            <p>Nutritious lunch options such as vegetable wraps, quinoa salads, and mini sandwiches.</p>
+                        </div>
+                        <div class="sub-resource">
+                            <h3>Dinner Recipes</h3>
+                            <p>Healthy dinner recipes including stir-fries, baked chicken, and veggie-loaded pasta.</p>
+                        </div>
+                        <div class="sub-resource">
+                            <h3>Snack Ideas</h3>
+                            <p>Wholesome snack ideas like fruit slices, yogurt with granola, and homemade energy bars.</p>
+                        </div>
+                    </div>
+                    <div class="resource">
+                        <h2>FAQ</h2>
+                        <p>Check out our FAQ section for answers to common queries about child nutrition.</p>
+                        <div class="sub-resource">
+                            <h3>General Nutrition</h3>
+                            <p>Find answers to general questions about child nutrition, balanced diets, and healthy eating habits.</p>
+                        </div>
+                        <div class="sub-resource">
+                            <h3>Special Dietary Needs</h3>
+                            <p>Get information on managing special dietary needs such as allergies, intolerances, and vegetarian diets.</p>
+                        </div>
+                        <div class="sub-resource">
+                            <h3>Feeding Challenges</h3>
+                            <p>Learn how to address common feeding challenges like picky eating, food refusal, and meal planning.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="meal-planner" class="meal-planner">
+            <div class="container">
+                <h1 class="section-heading"><span>Interactive</span> Meal Planner</h1>
+                <p>Create and save personalized meal plans for your child based on their age, dietary needs, and preferences.</p>
+                <form id="meal-planner-form">
+                    <div class="form-group">
+                        <label for="child-age">Child's Age</label>
+                        <select id="child-age" required>
+                            <option value="0-6 Months">0-6 Months</option>
+                            <option value="6-12 Months">6-12 Months</option>
+                            <option value="1-2 Years">1-2 Years</option>
+                            <option value="2-5 Years">2-5 Years</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="dietary-needs">Dietary Needs</label>
+                        <select id="dietary-needs" required>
+                            <option value="None">None</option>
+                            <option value="Vegetarian">Vegetarian</option>
+                            <option value="Vegan">Vegan</option>
+                            <option value="Gluten-Free">Gluten-Free</option>
+                            <option value="Dairy-Free">Dairy-Free</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="preferences">Preferences</label>
+                        <input type="text" id="preferences" placeholder="Enter any preferences (e.g., likes/dislikes)">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Create Meal Plan</button>
+                </form>
+                <div id="meal-plan-output" class="meal-plan-output">
+                    <h2>Your Personalized Meal Plan</h2>
+                    <div id="meal-plan-details"></div>
+                    <button id="save-meal-plan" class="btn btn-secondary">Save Meal Plan</button>
+                </div>
+            </div>
+        </section>
+         
+        <section id="community"   class="community-reviews">
+            <div class="container flex">
+                <div class="community">
+                    <h1>Join Our Community</h1>
+                    <p>Engage with other parents and caregivers to share experiences and advice.</p>
+                    <button class="btn btn-primary">Join Now</button>
+                </div>
+                <div class="reviews">
+                    <h1 class="section-heading"><span>What</span> Parents Say</h1>
+                    <p>Hear from parents who have benefited from our resources and community.</p>
+                    <div class="slider">
+                        <div class="slide">
+                            <img src="parent1.jpg" alt="Sarah M.">
+                            <p>"NourishKids has been a lifesaver. The meal plans and nutritional guides have helped me ensure my child is eating well."</p>
+                            <span>- Sarah M., Proud Parent</span>
+                        </div>
+                        <div class="slide">
+                            <img src="parent2.jpg" alt="John D.">
+                            <p>"The community forum is fantastic! I've connected with so many parents and gained valuable insights."</p>
+                            <span>- John D., Father of Two</span>
+                        </div>
+                        <div class="slide">
+                            <img src="parent3.jpg" alt="Merry.">
+                            <p>"Blessed be What you do!"</p>
+                            <span>- Merry., Mother of All</span>
+                        </div>
+                    </div>
+                    <div class="slider-dots"></div>
+                </div>
+            </div>
+        </section>
+        
+        <style>
+        /* Responsive Styles for the Community Reviews Section */
+        .community-reviews .container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+        .community, .reviews {
+            flex: 1 1 100%;
+            margin: 10px 0;
+        }
+        .slider {
+            display: flex;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            gap: 20px;
+            padding: 20px 0;
+        }
+        .slide {
+            min-width: 300px;
+            flex: 0 0 auto;
+            scroll-snap-align: center;
+            background-color: rgba(125, 211, 226, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(198, 234, 18, 0.908);
+            text-align: center;
+        }
+        .slide img {
+            max-width: 80px;
+            border-radius: 50%;
+            margin-bottom: 15px;
+        }
+        .slider-dots {
+            margin-top: 10px;
+            text-align: center;
+        }
+        .slider-dots::before {
+            content: "• • •";
+            font-size: 1.5em;
+            color: rgb(8, 148, 242);
+        }
+        @media (max-width: 768px) {
+            .community-reviews .container {
+                flex-direction: column;
+                align-items: center;
+            }
+            .community, .reviews {
+                text-align: center;
+            }
+            h1 {
+                font-size: 2em;
+            }
+            p {
+                font-size: 1em;
+            }
+            .btn-primary {
+                width: 100%;
+                font-size: 1em;
+            }
+            .slide {
+                min-width: 100%;
+            }
+        }
+        </style>
+        
+        
+<!-- Profile Creation Modal -->
+<div id="signup-modal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h1>User Profile</h1>
+        <form id="profile-form">
+            <div class="form-group">
+                <label for="username">Username:</label>
+                <input type="text" id="username" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" id="password" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Create Profile</button>
+        </form>
+        <div id="user-info">
+            <h2>Welcome, <span id="user-name"></span>!</h2>
+            <button id="logout" class="btn btn-primary">Logout</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    // JavaScript for modal functionality
+    var modal = document.getElementById("signup-modal");
+    var btn = document.getElementById("open-signup-modal");
+    var span = document.getElementsByClassName("close")[0];
+
+    btn.onclick = function() {
+        modal.style.display = "block";
+    }
+
+    span.onclick = function() {
+        modal.style.display = "none";
+    }
+
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+
+    // JavaScript for handling profile creation and localStorage
+    document.getElementById('profile-form').addEventListener('submit', function(e) {
+        e.preventDefault();
+        var username = document.getElementById('username').value;
+        var email = document.getElementById('email').value;
+        var password = document.getElementById('password').value;
+        
+        localStorage.setItem('username', username);
+        localStorage.setItem('email', email);
+        localStorage.setItem('password', password);
+
+        document.getElementById('user-name').innerText = username;
+        document.getElementById('profile-form').style.display = 'none';
+        document.getElementById('user-info').style.display = 'block';
+        modal.style.display = "none";
+    });
+
+    document.getElementById('logout').addEventListener('click', function() {
+        localStorage.removeItem('username');
+        localStorage.removeItem('email');
+        localStorage.removeItem('password');
+        
+        document.getElementById('profile-form').style.display = 'block';
+        document.getElementById('user-info').style.display = 'none';
+    });
+
+    window.onload = function() {
+        if (localStorage.getItem('username')) {
+            document.getElementById('user-name').innerText = localStorage.getItem('username');
+            document.getElementById('profile-form').style.display = 'none';
+            document.getElementById('user-info').style.display = 'block';
+        }
+    };
+</script>
+<style>
+
+    /* Modal Container */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+}
+
+/* Modal Content */
+.modal-content {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 500px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    animation: modalopen 0.4s;
+}
+
+/* Modal Animation */
+@keyframes modalopen {
+    from { opacity: 0; transform: translateY(-100px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Close Button */
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* Form Styling */
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.form-group input {
+    width: calc(100% - 22px); /* Adjust width to account for padding */
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1em;
+}
+
+/* Button Styling */
+.btn-primary {
+    padding: 10px 20px;
+    font-size: 1em;
+    color: #fff;
+    background-color: #007BFF;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+}
+
+/* User Info Styling */
+#user-info {
+    display: none;
+    text-align: center;
+}
+
+#user-info h2 {
+    margin-bottom: 15px;
+}
+
+#user-info button {
+    margin-top: 10px;
+}
+
+@media screen and (max-width: 600px) {
+    .modal-content {
+        width: 90%;
+    }
+}
+
+</style>
+
+        <section id="blog" class="blog">
+            <div class="container">
+                <h1 class="section-heading"><span>Our</span> Blog</h1>
+                <p>Stay updated with the latest in child nutrition and health tips.</p>
+
+                <div class="card-wrapper">
+                    <div class="card">
+                        <div class="img-wrapper">
+                            <img src="tips.jpg" alt="">
+                        </div>
+                        <div class="card-content">
+                            <a href="#">
+                                <h1>10 Tips for Healthy Eating</h1>
+                            </a>
+                            <span>June 24, 2024</span>
+                            <p>Discover practical tips for encouraging healthy eating habits in young children.</p>
+                            <a href="#">Read More</a>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="img-wrapper">
+                            <img src="blog2.jpg" alt="">
+                        </div>
+                        <div class="card-content">
+                            <a href="#">
+                                <h1>Understanding Nutrients</h1>
+                            </a>
+                            <span>June 18, 2024</span>
+                            <p>Learn about the essential nutrients that every child needs for growth and development.</p>
+                            <a href="#">Read More</a>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="img-wrapper">
+                            <img src="blog3.jpg" alt="">
+                        </div>
+                        <div class="card-content">
+                            <a href="#">
+                                <h1>Easy Healthy Recipes</h1>
+                            </a>
+                            <span>June 10, 2024</span>
+                            <p>Check out our collection of simple and nutritious recipes that your kids will love.</p>
+                            <a href="#">Read More</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="contact">
+            <div class="container">
+                <h1 class="section-heading">Contact <span>Us</span></h1>
+                <p>Have questions or feedback? We'd love to hear from you.</p>
+                <div class="card-wrapper">
+                    <div class="card">
+                        <h1>Call Us On</h1>
+                        <h6>+251945068594</h6>
+                    </div>
+                    <div class="card">
+                        <h1>Email Us At</h1>
+                        <h6>yanetniguse@gmail.com</h6>
+                    </div>
+                    <div class="card">
+                        <h1>Visit Us</h1>
+                        <h6>USIU-Africa Campus, AppFactory</h6>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <style>
+            .contact {
+                padding: 50px 0;
+                background-color: #f9f9f9;
+            }
+        
+            .container {
+                max-width: 1200px;
+                margin: 0 auto;
+                padding: 0 15px;
+            }
+        
+            .section-heading {
+                text-align: center;
+                margin-bottom: 30px;
+                font-size: 2.5em;
+                color: #333;
+            }
+        
+            .section-heading span {
+                color: #007bff;
+            }
+        
+            .contact p {
+                text-align: center;
+                margin-bottom: 50px;
+                font-size: 1.2em;
+                color: #666;
+            }
+        
+            .card-wrapper {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: space-around;
+            }
+        
+            .card {
+                background-color: #fff;
+                border: 1px solid #ddd;
+                border-radius: 5px;
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+                padding: 20px;
+                margin: 10px;
+                flex: 1;
+                min-width: 250px;
+                max-width: 350px;
+                text-align: center;
+            }
+        
+            .card h1 {
+                font-size: 1.5em;
+                color: #333;
+                margin-bottom: 10px;
+            }
+        
+            .card h6 {
+                font-size: 1.2em;
+                color: #007bff;
+            }
+        
+            @media (max-width: 768px) {
+                .card-wrapper {
+                    flex-direction: column;
+                    align-items: center;
+                }
+        
+                .card {
+                    margin-bottom: 20px;
+                }
+            }
+        </style>
+        
+
+        <footer>
+            <div class="container flex items-center footer-wrap">
+                <div class="footer-logo">
+                    <img src="logo.jpg" alt="NourishKids Logo" class="footer-img">
+                </div>
+                <div class="footer-text">
+                    <p>&copy; 2024 NourishKids - Yanet Niguse Tesfay. All rights reserved.</p>
+                </div>
+                <div class="footer-links">
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                </div>
+            </div>
+        </footer>
+        
+        <style>
+            .footer-wrap {
+                justify-content: space-between;
+                padding: 20px;
+                background-color: #f8f8f8;
+                border-top: 1px solid #e7e7e7;
+            }
+            .footer-logo {
+                flex: 1;
+                max-width: 100px; /* Example maximum width */
+            }
+            .footer-img {
+                width: 100%; /* Ensure logo is responsive */
+                height: auto;
+                max-width: 100px; /* Example maximum width */
+                border-radius: 50%; /* Adjust as necessary */
+            }
+            .footer-text {
+                flex: 2;
+                text-align: center;
+            }
+            .footer-text p {
+                margin: 0;
+                font-size: 14px;
+                color: #555;
+            }
+            .footer-links {
+                flex: 1;
+                text-align: right;
+            }
+            .footer-links a {
+                margin-left: 15px;
+                font-size: 14px;
+                color: #007BFF;
+                text-decoration: none;
+            }
+            .footer-links a:hover {
+                text-decoration: underline;
+            }
+        
+            /* Media query for responsiveness */
+            @media (max-width: 768px) {
+                .footer-wrap {
+                    flex-direction: column;
+                    align-items: center;
+                    text-align: center;
+                }
+                .footer-logo, .footer-links, .footer-text {
+                    margin-bottom: 10px; /* Adjust spacing */
+                    flex: none; /* Reset flex properties for stacking */
+                    width: 100%;
+                }
+                .footer-links {
+                    text-align: center;
+                }
+            }
+        </style>
+        
+                
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+    <script src="./js/main.js"></script>
+</body>
+
+</html>
