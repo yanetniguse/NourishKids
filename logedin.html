@@ -456,42 +456,42 @@
         </section>
         
    <section id="meal-planner" class="meal-planner">
-    <div class="container">
-        <h1 class="section-heading"><span>Interactive</span> Meal Planner</h1>
-        <p>Create and save personalized meal plans for your child based on their age, dietary needs, and preferences.</p>
-        <form id="meal-planner-form">
-            <div class="form-group">
-                <label for="meal-child-age">Child's Age</label>
-                <select id="meal-child-age" required>
-                    <option value="0-6 Months">0-6 Months</option>
-                    <option value="6-12 Months">6-12 Months</option>
-                    <option value="1-2 Years">1-2 Years</option>
-                    <option value="2-5 Years">2-5 Years</option>
-                </select>
+            <div class="container">
+                <h1 class="section-heading"><span>Interactive</span> Meal Planner</h1>
+                <p>Create and save personalized meal plans for your child based on their age, dietary needs, and preferences.</p>
+                <form id="meal-planner-form">
+                    <div class="form-group">
+                        <label for="child-age">Child's Age</label>
+                        <select id="child-age" required>
+                            <option value="0-6 Months">0-6 Months</option>
+                            <option value="6-12 Months">6-12 Months</option>
+                            <option value="1-2 Years">1-2 Years</option>
+                            <option value="2-5 Years">2-5 Years</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="dietary-needs">Dietary Needs</label>
+                        <select id="dietary-needs" required>
+                            <option value="None">None</option>
+                            <option value="Vegetarian">Vegetarian</option>
+                            <option value="Vegan">Vegan</option>
+                            <option value="Gluten-Free">Gluten-Free</option>
+                            <option value="Dairy-Free">Dairy-Free</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="preferences">Preferences</label>
+                        <input type="text" id="preferences" placeholder="Enter any preferences (e.g., likes/dislikes)">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Create Meal Plan</button>
+                </form>
+                <div id="meal-plan-output" class="meal-plan-output">
+                    <h2>Your Personalized Meal Plan</h2>
+                    <div id="meal-plan-details"></div>
+                    <button id="save-meal-plan" class="btn btn-secondary">Save Meal Plan</button>
+                </div>
             </div>
-            <div class="form-group">
-                <label for="dietary-needs">Dietary Needs</label>
-                <select id="dietary-needs" required>
-                    <option value="None">None</option>
-                    <option value="Vegetarian">Vegetarian</option>
-                    <option value="Vegan">Vegan</option>
-                    <option value="Gluten-Free">Gluten-Free</option>
-                    <option value="Dairy-Free">Dairy-Free</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="preferences">Preferences</label>
-                <input type="text" id="preferences" placeholder="Enter any preferences (e.g., likes/dislikes)">
-            </div>
-            <button type="submit" class="btn btn-primary">Create Meal Plan</button>
-        </form>
-        <div id="meal-plan-output" class="meal-plan-output">
-            <h2>Your Personalized Meal Plan</h2>
-            <div id="meal-plan-details"></div>
-            <button id="save-meal-plan" class="btn btn-secondary">Save Meal Plan</button>
-        </div>
-    </div>
-</section>
+        </section>
 
 <section id="nutrient-calculator" class="nutrient-calculator">
     <div class="container">
