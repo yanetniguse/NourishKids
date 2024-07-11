@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unlock Premium Insights</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        
+        .container {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 800px;
+            width: 100%;
+            text-align: center;
+        }
+        
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .analysis-section {
+            margin-bottom: 20px;
+            display: none; /* Hide all analysis sections initially */
+        }
+        
+        canvas {
+            max-width: 100%;
+            margin-bottom: 10px;
+        }
+        
+        button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+        
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .explanation {
+            text-align: left;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Unlock Premium Insights</h1>
+        <div id="predictive-analysis" class="analysis-section">
+            <h2>Predictive Analysis</h2>
+            <canvas id="predictiveChart"></canvas>
+            <p>Forecast your child's future nutritional needs based on historical data and growth patterns. Plan meals proactively and receive personalized recommendations.</p>
+            <div class="explanation">
+                <h3>Explanation:</h3>
+                <p>This graph shows the projected nutritional needs of your child over a six-month period (January to June). The values indicate the required nutrients based on historical data and growth patterns.</p>
+                <ul>
+                    <li><strong>January:</strong> 65 units of nutritional value</li>
+                    <li><strong>February:</strong> 59 units of nutritional value</li>
+                    <li><strong>March:</strong> 80 units of nutritional value</li>
+                    <li><strong>April:</strong> 81 units of nutritional value</li>
+                    <li><strong>May:</strong> 56 units of nutritional value</li>
+                    <li><strong>June:</strong> 55 units of nutritional value</li>
+                </ul>
+                <h3>Recommendations:</h3>
+                <p>Based on this data, ensure to:</p>
+                <ul>
+                    <li>Provide a balanced diet with sufficient vitamins and minerals, especially in March and April when nutritional needs peak.</li>
+                    <li>Monitor and adjust meal portions according to the forecasted needs to avoid nutritional deficiencies.</li>
+                </ul>
+            </div>
+        </div>
+        <div id="behavior-analysis" class="analysis-section">
+            <h2>Behavior Analysis</h2>
+            <canvas id="behaviorChart"></canvas>
+            <p>Track eating habits, preferences, and responses to food. Receive personalized tips to address picky eating and optimize meal plans for healthier choices.</p>
+            <div class="explanation">
+                <h3>Explanation:</h3>
+                <p>This graph illustrates the eating habits of your child over a week. The values represent the number of healthy meals consumed each day.</p>
+                <ul>
+                    <li><strong>Monday:</strong> 12 healthy meals</li>
+                    <li><strong>Tuesday:</strong> 19 healthy meals</li>
+                    <li><strong>Wednesday:</strong> 3 healthy meals</li>
+                    <li><strong>Thursday:</strong> 5 healthy meals</li>
+                    <li><strong>Friday:</strong> 2 healthy meals</li>
+                    <li><strong>Saturday:</strong> 3 healthy meals</li>
+                    <li><strong>Sunday:</strong> 10 healthy meals</li>
+                </ul>
+                <h3>Recommendations:</h3>
+                <p>To improve eating habits:</p>
+                <ul>
+                    <li>Identify and address any issues causing low consumption on certain days (e.g., Wednesday and Friday).</li>
+                    <li>Introduce new healthy foods gradually to reduce pickiness.</li>
+                    <li>Maintain a consistent meal schedule to encourage regular eating patterns.</li>
+                </ul>
+            </div>
+        </div>
+        <button id="predictiveBtn">Predictive Analysis</button>
+        <button id="behaviorBtn">Behavior Analysis</button>
+    </div>
+
+    <!-- Chart.js library -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <script>
+        // Data for Predictive Analysis Chart
+        const predictiveData = {
+            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+            datasets: [{
+                label: 'Nutritional Needs',
+                data: [65, 59, 80, 81, 56, 55],
+                fill: false,
+                backgroundColor: 'rgb(75, 192, 192)',
+                borderColor: 'rgba(75, 192, 192, 0.2)',
+            }]
+        };
+
+        // Data for Behavior Analysis Chart
+        const behaviorData = {
+            labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+            datasets: [{
+                label: 'Eating Habits',
+                data: [12, 19, 3, 5, 2, 3, 10],
+                fill: false,
+                backgroundColor: 'rgb(75, 192, 192)',
+                borderColor: 'rgba(75, 192, 192, 0.2)',
+            }]
+        };
+
+        // Config for Predictive Analysis Chart
+        const predictiveConfig = {
+            type: 'line',
+            data: predictiveData,
+            options: {}
+        };
+
+        // Config for Behavior Analysis Chart
+        const behaviorConfig = {
+            type: 'line',
+            data: behaviorData,
+            options: {}
+        };
+
+        // Initialize Predictive Analysis Chart
+        const predictiveCtx = document.getElementById('predictiveChart').getContext('2d');
+        const predictiveChart = new Chart(predictiveCtx, predictiveConfig);
+
+        // Initialize Behavior Analysis Chart
+        const behaviorCtx = document.getElementById('behaviorChart').getContext('2d');
+        const behaviorChart = new Chart(behaviorCtx, behaviorConfig);
+
+        // Show Predictive Analysis section
+        document.getElementById('predictiveBtn').addEventListener('click', function() {
+            document.getElementById('predictive-analysis').style.display = 'block';
+            document.getElementById('behavior-analysis').style.display = 'none';
+            predictiveChart.update(); // Update the chart when shown
+        });
+
+        // Show Behavior Analysis section
+        document.getElementById('behaviorBtn').addEventListener('click', function() {
+            document.getElementById('behavior-analysis').style.display = 'block';
+            document.getElementById('predictive-analysis').style.display = 'none';
+            behaviorChart.update(); // Update the chart when shown
+        });
+    </script>
+</body>
+</html>
